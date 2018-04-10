@@ -18,7 +18,10 @@ public class Item implements Serializable {
   private String attribute5;
   private Product product;
   private int quantity;
-
+  
+  /* 새로 추가된 부분 */
+  private int soldCnt;
+  
   /* JavaBeans Properties */
   public String getItemId() { return itemId; }
   public void setItemId(String itemId) { this.itemId = itemId.trim(); }
@@ -55,7 +58,17 @@ public class Item implements Serializable {
   public String getAttribute5() { return attribute5; }
   public void setAttribute5(String attribute5) { this.attribute5 = attribute5; }
 
+  /* 메소드 */
+  public boolean isSold(Item item) {
+	  return false;
+  }
+  public void addSoldCnt() {
+	  
+  }
+  
   public String toString() {
     return "(" + getItemId().trim() + "-" + getProductId().trim() + ")";
   }
+  
+  
 }
