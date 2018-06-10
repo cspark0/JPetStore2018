@@ -7,16 +7,23 @@
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context" 
 	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        	http://www.springframework.org/schema/beans/spring-beans.xsd
        	http://www.springframework.org/schema/context
-       	http://www.springframework.org/schema/context/spring-context.xsd"> 
+       	http://www.springframework.org/schema/context/spring-context.xsd
+				http://www.springframework.org/schema/mvc
+       	http://www.springframework.org/schema/mvc/spring-mvc.xsd"> 
 
 	<context:component-scan base-package="com.example.jpetstore.service">
-		<context:exclude-filter type="regex" expression=".*(PetStoreImpl|AccountFormValidator)"/>
+		<context:exclude-filter type="regex" expression="PetStoreImpl|AccountFormValidator"/>
 	</context:component-scan>
 		
-	<!-- HTTP invoker exporter for the JPetStore OrderService -->
+	<context:component-scan base-package="com.example.jpetstore.controller.rest" />
+		
+ 	<mvc:annotation-driven/>   <!-- for HttpMessageConverter beans -->
+
+ 	<!-- HTTP invoker exporter for the JPetStore OrderService -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
 	<bean id="httpInvokerOrderServiceController"
    		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter"

@@ -30,4 +30,5 @@ public interface LineItemMapper {
 
   void insertLineItem(LineItem lineItem);
 
+  int deleteLineItems(int orderId);
 }

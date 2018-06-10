@@ -119,4 +119,11 @@
   	select @@identity as value
   </insert>
 
+	<delete id="deleteOrder">
+		delete from ORDERS where ORDERID = #{orderId} 
+	</delete>
+	
+	<delete id="deleteOrderStatus">
+		delete from ORDERSTATUS where ORDERID = #{orderId} 
+	</delete>
 </mapper>

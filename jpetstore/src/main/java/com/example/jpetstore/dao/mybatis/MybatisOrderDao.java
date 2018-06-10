@@ -52,4 +52,16 @@ public class MybatisOrderDao implements OrderDao {
     		lineItemMapper.insertLineItem(lineItem);
     	}
 	}
+
+	@Transactional
+	public Order removeOrder(int orderId) {
+		Order order = null;
+		order = orderMapper.getOrder(orderId);
+		if (order != null) {
+			orderMapper.deleteOrderStatus(orderId);
+			lineItemMapper.deleteLineItems(orderId);
+			orderMapper.deleteOrder(orderId);
+		}
+		return order;
+	}
 }

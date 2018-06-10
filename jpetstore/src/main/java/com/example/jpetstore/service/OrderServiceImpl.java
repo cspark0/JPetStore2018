@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.jpetstore.dao.OrderDao;
 import com.example.jpetstore.domain.Order;
@@ -11,7 +12,8 @@ import com.example.jpetstore.domain.Order;
 /**
  * @author Chang-Sup Park
  */
-@Service("orderServiceImpl")
+@Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
@@ -23,5 +25,9 @@ public class OrderServiceImpl implements OrderService {
 
 	public List<Order> getOrdersByUsername(String username) {
 		return orderDao.getOrdersByUsername(username);
+	}
+	
+	public Order removeOrder(int orderId) {
+		return orderDao.removeOrder(orderId);
 	}
 }

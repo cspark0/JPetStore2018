@@ -14,4 +14,6 @@ public interface OrderDao {
 
   void insertOrder(Order order) throws DataAccessException;
 
+  Order removeOrder(int orderId);
+
 }
