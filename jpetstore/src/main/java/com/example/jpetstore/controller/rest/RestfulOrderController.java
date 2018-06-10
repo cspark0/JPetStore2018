@@ -39,7 +39,7 @@ public class RestfulOrderController {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
-		return order;       // convert order to JSON text in response body
+		return order;   // convert order to JSON text in response body
 	}
 	
 	@RequestMapping(value = "/ordersBy/{username}", method = RequestMethod.GET, 
@@ -61,12 +61,13 @@ public class RestfulOrderController {
 	@ResponseBody
 	public Order deleteOrder(@PathVariable("orderId") int orderId, HttpServletResponse response)
 			throws IOException {
+		System.out.println("/rest/order/{orderId} request with DELETE method accepted: {orderId} = " + orderId);
 		Order order = this.petStoreSvc.removeOrder(orderId);
 		if (order == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
 		System.out.println("order " + order.getOrderId() + " deleted.");
-		return order;
+		return order;	// convert order to JSON text in response body
 	}
 }

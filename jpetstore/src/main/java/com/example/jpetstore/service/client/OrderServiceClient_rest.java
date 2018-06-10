@@ -1,9 +1,10 @@
 package com.example.jpetstore.service.client;
 
 import java.util.Iterator;
-// import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StopWatch;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,7 +26,7 @@ public class OrderServiceClient_rest {
 
 		getOrderInfo("j2ee");
 		
-		deleteOrder(1147);
+		deleteOrderInfo(1146);
 	}
 
 	private static void getOrderInfo(int orderId) {
@@ -37,53 +38,62 @@ public class OrderServiceClient_rest {
 		try {
 			order = restTemplate.getForObject(
 					jpetstoreSvcUrl + "/order/{orderId}", Order.class, orderId);
+		} catch (HttpStatusCodeException e) {
+			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {	// 404 Not Found	
+				System.out.println("Order with ID " + orderId + " not found");
+			}
 		} catch (RestClientException e) {
 			e.printStackTrace();
-		}
+			return;
+		} finally {
+			stopWatch.stop();
+		}		
+		if (order != null) printOrder(order);		
 		
-		stopWatch.stop();		
-		if (order != null) {
-			printOrder(order);
-		}
-		else {
-			System.out.println("Order with ID " + orderId + " not found");
-		}
 		System.out.println();
 		System.out.println(stopWatch.prettyPrint());
 	}
 
 	private static void getOrderInfo(String username) {
-		// StopWatch stopWatch = new StopWatch("getOrdersByUsername" + " call");
+		StopWatch stopWatch = new StopWatch("getOrdersByUsername" + " call");
 		System.out.println("Calling ViewOrderController with user's name " + username);
-		// stopWatch.start("getOrderInfo()");		
+		stopWatch.start("getOrderInfo()");	
+		
 		Order[] orders = null;
 		try {
 			orders = restTemplate.getForObject(
 					jpetstoreSvcUrl + "/ordersBy/{username}", Order[].class, username);
+		} catch (HttpStatusCodeException e) {
+			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {	// 404 Not Found	
+				System.out.println("Orders by " + username + " not found");
+			}
 		} catch (RestClientException e) {
 			e.printStackTrace();
-		}
+			return;
+		} finally {
+			stopWatch.stop();
+		}		
+		if (orders != null) printOrders(orders, username);
 		
-		// stopWatch.stop();		
-		if (orders != null) {
-			printOrders(orders, username);
-		}
-		else {
-			System.out.println("Orders by " + username + " not found");
-		}
 		System.out.println();
-		// System.out.println(stopWatch.prettyPrint());
+		System.out.println(stopWatch.prettyPrint());
 	}
 
-	private static void deleteOrder(int orderId) {
+	private static void deleteOrderInfo(int orderId) {
 		System.out.println("Calling deleteOrder with order ID " + orderId);
 		
 		try {
 			restTemplate.delete(jpetstoreSvcUrl + "/order/{orderId}", orderId);
+		} catch (HttpStatusCodeException e) {
+			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {	// 404 Not Found	
+				System.out.println("Order with ID " + orderId + " not found");
+			}
+			return;
 		} catch (RestClientException e) {
 			e.printStackTrace();
 			return;
-		}		
+		}			
+		
 		System.out.println("order " + orderId + " has been deleted.");
 	}
 	
