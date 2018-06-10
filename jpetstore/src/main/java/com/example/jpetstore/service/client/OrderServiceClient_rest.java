@@ -18,8 +18,7 @@ public class OrderServiceClient_rest {
 	private static String port = "8080";
 	private static String jpetstoreSvcUrl = "http://" + host + ":" + port + "/jpetstore/rest";				
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {		
 		getOrderInfo(4);	
 
 		getOrderInfo(30004);

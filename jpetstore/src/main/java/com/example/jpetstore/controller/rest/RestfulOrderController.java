@@ -68,6 +68,6 @@ public class RestfulOrderController {
 			return null;
 		}
 		System.out.println("order " + order.getOrderId() + " deleted.");
-		return order;	// convert order to JSON text in response body
+		return order;	 // convert order to JSON text in response body
 	}
 }
