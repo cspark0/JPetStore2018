@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.jpetstore.dao.OrderDao;
-import com.example.jpetstore.dao.SequenceDao;
+// import com.example.jpetstore.dao.SequenceDao;
 import com.example.jpetstore.dao.mybatis.mapper.LineItemMapper;
 import com.example.jpetstore.dao.mybatis.mapper.OrderMapper;
 import com.example.jpetstore.domain.LineItem;
@@ -22,8 +22,8 @@ public class MybatisOrderDao implements OrderDao {
 	protected OrderMapper orderMapper;
 	@Autowired
 	protected LineItemMapper lineItemMapper;
-	@Autowired
-	private SequenceDao sequenceDao;
+	// @Autowired
+	// private SequenceDao sequenceDao;
 
 	public List<Order> getOrdersByUsername(String username) 
 			throws DataAccessException {
@@ -41,7 +41,9 @@ public class MybatisOrderDao implements OrderDao {
 	
 	@Transactional
 	public void insertOrder(Order order) throws DataAccessException {  
-    	order.setOrderId(sequenceDao.getNextId("ordernum"));
+		// use Oracle sequence in the definition of insertOrder query in OrderMapper.xml
+			
+		// order.setOrderId(sequenceDao.getNextId("ordernum"));
     	orderMapper.insertOrder(order);
     	orderMapper.insertOrderStatus(order);
     	for (int i = 0; i < order.getLineItems().size(); i++) {
@@ -49,5 +51,17 @@ public class MybatisOrderDao implements OrderDao {
     		lineItem.setOrderId(order.getOrderId());
     		lineItemMapper.insertLineItem(lineItem);
     	}
+	}
+
+	@Transactional
+	public Order removeOrder(int orderId) {
+		Order order = null;
+		order = orderMapper.getOrder(orderId);
+		if (order != null) {
+			orderMapper.deleteOrderStatus(orderId);
+			lineItemMapper.deleteLineItems(orderId);
+			orderMapper.deleteOrder(orderId);
+		}
+		return order;
 	}
 }

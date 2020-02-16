@@ -21,4 +21,7 @@
     VALUES (#{orderId}, #{lineNumber}, #{itemId}, #{quantity}, #{unitPrice})
   </insert>
 
+	<delete id="deleteLineItems" parameterType="int">
+		delete from LINEITEM where ORDERID = #{orderId} 
+	</delete>
 </mapper>

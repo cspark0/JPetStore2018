@@ -2,6 +2,8 @@ package com.example.jpetstore.service;
 
 import java.util.List;
 
+// import javax.jws.WebService;
+
 import com.example.jpetstore.domain.Order;
 
 /**
@@ -16,10 +18,9 @@ import com.example.jpetstore.domain.Order;
  * @see PetStoreImpl
  * @see OrderServiceImpl
  */
-//@WebService(name = "OrderService") 
+// @WebService(name = "OrderService") 
 public interface OrderService {
-
 	Order getOrder(int orderId);
 	public List<Order> getOrdersByUsername(String username);
-
+	public Order removeOrder(int orderId);
 }

@@ -28,7 +28,9 @@
 		
 	<!-- Configurer that replaces ${...} placeholders with values from properties files -->
 	<!-- (in this case, mail and JDBC related properties) -->
-	<context:property-placeholder location="classpath:jdbc.hsqldb.properties" />
+<!-- 	<context:property-placeholder location="classpath:jdbc.hsqldb.properties" /> -->
+	<context:property-placeholder location="classpath:jdbc.oracle.properties" />
+
 	<!-- 
 	<bean id="propertyConfigurer" 
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -65,6 +67,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="typeAliasesPackage" value="com.example.jpetstore.domain" />
+        <property name="configLocation" value="classpath:/mybatis-config.xml" />
     </bean>
 
     <!-- scan for mappers and let them be autowired -->
